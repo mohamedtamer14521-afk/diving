@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #040914;
+  --bg-surface: #081426;
+  --bg-elevated: #0f2038;
+  --text-primary: #f8fafc;
+  --text-muted: #94a3b8;
+  --primary: #0ea5e9;
+  --primary-glow: rgba(14, 165, 233, 0.4);
+  --secondary: #06b6d4;
+  --accent: #38bdf8;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --radius-card: 1.25rem;
+  --radius-button: 9999px;
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+}
+
+/* Light Theme Variables */
+.theme-light {
+  --bg-primary: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-elevated: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-muted: #64748b;
+  --primary: #0284c7;
+  --primary-glow: rgba(2, 132, 199, 0.25);
+  --secondary: #0369a1;
+  --accent: #0ea5e9;
+  --border-subtle: rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Luxury Headings */
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-heading);
+  letter-spacing: -0.025em;
+}
+
+/* Apple-style Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Glassmorphism & Apple UI Utilities */
+.glass-panel {
+  background: rgba(8, 20, 38, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+}
+
+.glass-panel-elevated {
+  background: rgba(15, 32, 56, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-dock {
+  background: rgba(6, 14, 29, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* Card Subtle Lift */
+.apple-card-hover {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+}
+
+.apple-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.6), 0 0 40px -10px var(--primary-glow);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Text Gradient Utilities */
+.text-gradient-ocean {
+  background: linear-gradient(135deg, #ffffff 0%, #bae6fd 60%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #38bdf8 0%, #06b6d4 50%, #0284c7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Subtitle muted luxury text */
+.text-subtle {
+  color: var(--text-muted);
+  letter-spacing: -0.01em;
+  line-height: 1.6;
+}
+
+/* Section Spacing Utilities */
+.section-spacious {
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+
+.section-normal {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.section-compact {
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+
+/* Dynamic Island & Device Preview Styling */
+.iphone-frame-outer {
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.15),
+    0 30px 90px rgba(0, 0, 0, 0.8),
+    0 10px 30px rgba(0, 0, 0, 0.6),
+    inset 0 0 4px 2px rgba(255, 255, 255, 0.1);
+  background: #11141a;
+  border-radius: 54px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.iphone-screen-viewport {
+  border-radius: 46px;
+  overflow: hidden;
+  background: #040914;
+}
+
+.iphone-notch-island {
+  position: absolute;
+  top: 13px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 124px;
+  height: 35px;
+  background: #000000;
+  border-radius: 20px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.iphone-home-bar {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 136px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 9999px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
