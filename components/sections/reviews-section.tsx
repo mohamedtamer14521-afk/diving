@@ -16,7 +16,9 @@ export function ReviewsSection({
   const [reviews, setReviews] = useState<Review[]>(initialReviews || DEFAULT_REVIEWS);
 
   useEffect(() => {
-    if (!initialReviews) {
+    if (initialReviews) {
+      setReviews(initialReviews);
+    } else {
       setReviews(DataStore.getReviews());
     }
 

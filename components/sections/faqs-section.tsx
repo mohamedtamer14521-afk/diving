@@ -19,7 +19,9 @@ export function FAQSection({
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   useEffect(() => {
-    if (!initialFaqs) {
+    if (initialFaqs) {
+      setFaqs(initialFaqs);
+    } else {
       setFaqs(DataStore.getFaqs());
     }
 

@@ -21,13 +21,15 @@ export function CoursesSection({ section, initialCourses, onSelectCourse }: Cour
   const [activeModalCourse, setActiveModalCourse] = useState<Course | null>(null);
 
   useEffect(() => {
-    if (!initialCourses) {
+    if (initialCourses) {
+      setCourses(initialCourses);
+    } else {
       setCourses(DataStore.getCourses());
     }
 
     const handleSync = (e: Event) => {
       const customEvent = e as CustomEvent;
-      if (customEvent.detail && customEvent.detail.key === "diving_vision_courses") {
+      if (customEvent.detail && (customEvent.detail.key === "diving_vision_courses" || customEvent.detail.key === "aura_oceanics_courses")) {
         setCourses(DataStore.getCourses());
       }
     };

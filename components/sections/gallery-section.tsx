@@ -19,13 +19,15 @@ export function GallerySection({
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!initialItems) {
+    if (initialItems) {
+      setItems(initialItems);
+    } else {
       setItems(DataStore.getGallery());
     }
 
     const handleSync = (e: Event) => {
       const customEvent = e as CustomEvent;
-      if (customEvent.detail && customEvent.detail.key === "diving_vision_gallery") {
+      if (customEvent.detail && (customEvent.detail.key === "diving_vision_gallery" || customEvent.detail.key === "aura_oceanics_gallery")) {
         setItems(DataStore.getGallery());
       }
     };

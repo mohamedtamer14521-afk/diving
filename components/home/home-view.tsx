@@ -59,6 +59,37 @@ export function HomeView({
   const [prefilledBookingItem, setPrefilledBookingItem] = useState<string>("");
 
   useEffect(() => {
+    // 1. Initial client hydration from DataStore
+    if (typeof window !== "undefined") {
+      try {
+        const clientSettings = DataStore.getSettings();
+        if (clientSettings) setSettings(clientSettings);
+
+        const clientSections = DataStore.getSections();
+        if (clientSections && clientSections.length > 0) setSections(clientSections);
+
+        const clientActivities = DataStore.getActivities();
+        if (clientActivities && clientActivities.length > 0) setActivities(clientActivities);
+
+        const clientCourses = DataStore.getCourses();
+        if (clientCourses && clientCourses.length > 0) setCourses(clientCourses);
+
+        const clientTrips = DataStore.getTrips();
+        if (clientTrips && clientTrips.length > 0) setTrips(clientTrips);
+
+        const clientGallery = DataStore.getGallery();
+        if (clientGallery && clientGallery.length > 0) setGallery(clientGallery);
+
+        const clientReviews = DataStore.getReviews();
+        if (clientReviews && clientReviews.length > 0) setReviews(clientReviews);
+
+        const clientFaqs = DataStore.getFaqs();
+        if (clientFaqs && clientFaqs.length > 0) setFaqs(clientFaqs);
+      } catch (e) {
+        console.warn("Client store hydration notice:", e);
+      }
+    }
+
     const handleSync = (e: Event) => {
       const customEvent = e as CustomEvent;
       const key = customEvent.detail?.key;

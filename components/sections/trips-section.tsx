@@ -22,14 +22,16 @@ export function TripsSection({ section, initialTrips, onSelectTrip }: TripsSecti
   const [activeModalTrip, setActiveModalTrip] = useState<Trip | null>(null);
 
   useEffect(() => {
-    if (!initialTrips) {
+    if (initialTrips) {
+      setTrips(initialTrips);
+    } else {
       setTrips(DataStore.getTrips());
     }
 
     const handleSync = (e: Event) => {
       const customEvent = e as CustomEvent;
-      if (customEvent.detail && customEvent.detail.key === "diving_vision_trips") {
-        setTrips(customEvent.detail.value);
+      if (customEvent.detail && (customEvent.detail.key === "diving_vision_trips" || customEvent.detail.key === "aura_oceanics_trips")) {
+        setTrips(DataStore.getTrips());
       }
     };
     window.addEventListener("store-sync", handleSync);

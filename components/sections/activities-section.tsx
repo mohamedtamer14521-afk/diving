@@ -27,13 +27,15 @@ export function ActivitiesSection({
   const [activeModalItem, setActiveModalItem] = useState<Activity | null>(null);
 
   useEffect(() => {
-    if (!initialActivities) {
+    if (initialActivities) {
+      setActivities(initialActivities);
+    } else {
       setActivities(DataStore.getActivities());
     }
 
     const handleSync = (e: Event) => {
       const customEvent = e as CustomEvent;
-      if (customEvent.detail && customEvent.detail.key === "diving_vision_activities") {
+      if (customEvent.detail && (customEvent.detail.key === "diving_vision_activities" || customEvent.detail.key === "aura_oceanics_activities")) {
         setActivities(DataStore.getActivities());
       }
     };
