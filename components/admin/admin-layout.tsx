@@ -75,7 +75,10 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     { label: "Audit Logs", href: "/admin/audit-logs", icon: <History className="w-4 h-4" /> },
   ];
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch {}
     DataStore.setAdminUser(null);
     router.push("/admin/login");
   };

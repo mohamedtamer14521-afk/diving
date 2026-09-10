@@ -107,10 +107,10 @@ export const DEFAULT_MEDIA: MediaAsset[] = [
 export const DEFAULT_AUDIT_LOGS: AuditLog[] = [
   {
     id: "log-1",
-    user_email: "superadmin@divingvisioncenter.com",
+    user_email: "system@internal",
     action: "SYSTEM_INITIALIZED",
     entity_type: "PLATFORM",
-    details: "Production white-label environment initialized with luxury design tokens.",
+    details: "Production environment initialized with luxury design tokens.",
     created_at: "2026-09-01T08:00:00Z",
   },
 ];

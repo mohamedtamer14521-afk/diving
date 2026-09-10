@@ -150,10 +150,6 @@ export function Footer({ initialSettings }: { initialSettings?: BusinessSettings
           <p>© {new Date().getFullYear()} {settings.business_name}. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <span className="text-slate-600">Enterprise White-Label Architecture</span>
-            <Link href="/admin" className="hover:text-slate-400 flex items-center gap-1">
-              <Shield className="w-3.5 h-3.5" />
-              Admin Portal
-            </Link>
           </div>
         </div>
       </div>

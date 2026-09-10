@@ -2,35 +2,76 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Compass, ShieldCheck, Lock, Mail, ArrowRight, UserCheck } from "lucide-react";
+import { Compass, ShieldCheck, Lock, Mail, ArrowRight, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataStore } from "@/lib/data-store";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("admin@divingvisioncenter.com");
-  const [password, setPassword] = useState("••••••••••••");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [role, setRole] = useState<"Super Admin" | "Content Manager">("Super Admin");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage("");
+
+    if (!email.trim()) {
+      setErrorMessage("Please enter your registered admin email.");
+      return;
+    }
+
+    if (!password.trim()) {
+      setErrorMessage("Please enter your secret password.");
+      return;
+    }
+
     setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim(),
+          password: password.trim(),
+          role,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        setErrorMessage(data.error || "Access Denied: Invalid email or password.");
+        setIsLoading(false);
+        return;
+      }
+
+      // Sync Client DataStore
       DataStore.setAdminUser({
         id: `usr-${Date.now()}`,
-        email,
-        name: role === "Super Admin" ? "Master Administrator" : "Editorial Manager",
+        email: email.trim().toLowerCase(),
+        name: role === "Super Admin" ? "Master Administrator" : "Content Manager",
         role,
         avatar_url: "",
         last_login: new Date().toISOString(),
       });
-      DataStore.addAuditLog("ADMIN_LOGIN", "AUTH", `Admin session opened by ${email} (${role})`);
+      DataStore.addAuditLog(
+        "ADMIN_LOGIN",
+        "AUTH",
+        `Secure session authenticated for ${email.trim()} (${role}) via ${data.user?.authSource || "server"}`
+      );
+
       setIsLoading(false);
       router.push("/admin");
-    }, 400);
+    } catch (error) {
+      console.error("Login request failed:", error);
+      setErrorMessage("Connection error. Please try again.");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -48,18 +89,26 @@ export default function AdminLoginPage() {
             </div>
           </div>
           <h1 className="text-2xl font-bold text-white font-display tracking-tight">
-            Sanctuary Control Center
+            Protected Control Center
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Enterprise Administrative Access & Realtime CMS
+            Encrypted Administrative Authentication
           </p>
         </div>
 
         {/* Login Card */}
         <form
           onSubmit={handleLogin}
+          autoComplete="off"
           className="p-8 rounded-3xl bg-slate-900/80 border border-white/10 backdrop-blur-2xl shadow-2xl space-y-6"
         >
+          {errorMessage && (
+            <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2.5 animate-in fade-in duration-200">
+              <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+              <span>{errorMessage}</span>
+            </div>
+          )}
+
           {/* Role selector */}
           <div className="space-y-1.5">
             <label className="block text-xs font-semibold text-slate-300">
@@ -97,16 +146,20 @@ export default function AdminLoginPage() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="admin@yourdomain.com"
             required
+            autoComplete="off"
           />
 
           {/* Password */}
           <Input
-            label="Passcode"
+            label="Secret Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••••••"
             required
+            autoComplete="new-password"
           />
 
           {/* Submit */}
@@ -121,10 +174,11 @@ export default function AdminLoginPage() {
             <ArrowRight className="w-4 h-4 ml-1" />
           </Button>
 
-          {/* Demo info note */}
+          {/* Security Note */}
           <div className="pt-2 text-center border-t border-white/5">
-            <p className="text-[11px] text-slate-400">
-              🛡️ Role-Based Access Control • Supabase Auth Ready
+            <p className="text-[11px] text-slate-400 flex items-center justify-center gap-1.5">
+              <Lock className="w-3.5 h-3.5 text-cyan-400" />
+              HMAC-SHA256 Encrypted & Protected
             </p>
           </div>
         </form>

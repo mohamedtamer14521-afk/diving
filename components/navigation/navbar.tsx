@@ -106,14 +106,6 @@ export function Navbar({
 
             {/* Actions */}
             <div className="hidden lg:flex items-center gap-3">
-              <Link
-                href="/admin"
-                className="text-xs text-slate-400 hover:text-cyan-400 font-medium px-3 py-1.5 rounded-full hover:bg-white/5 transition-colors"
-                title="Admin Control Center"
-              >
-                <Shield className="w-3.5 h-3.5 inline mr-1" />
-                Admin
-              </Link>
               <Button
                 size="sm"
                 variant="primary"
@@ -183,14 +175,6 @@ export function Navbar({
               <Calendar className="w-4 h-4 mr-2" />
               Book An Expedition
             </Button>
-
-            <Link
-              href="/admin"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-center text-xs text-slate-500 hover:text-slate-300 py-2"
-            >
-              Admin Dashboard Login &rarr;
-            </Link>
           </div>
         </div>
       )}
