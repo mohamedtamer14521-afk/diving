@@ -130,7 +130,7 @@ export default function AdminTripsPage() {
             >
               <div className="flex items-center gap-4">
                 <div className="relative w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 border border-white/10">
-                  <Image src={trp.featured_image} alt={trp.title} fill className="object-cover" />
+                  <Image src={trp.featured_image || trp.image_url || "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1200&auto=format&fit=crop"} alt={trp.title} fill className="object-cover" />
                 </div>
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">

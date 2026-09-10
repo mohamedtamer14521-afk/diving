@@ -3,11 +3,11 @@ import { ShieldCheck, Anchor, HeartHandshake, Eye } from "lucide-react";
 import { HomepageSection } from "@/lib/types";
 
 export function NarrativeSection({ section }: { section?: HomepageSection }) {
-  const title = section?.title || "Where oceanic majesty meets understated precision.";
+  const title = section?.title || "Where oceanic majesty meets Red Sea precision.";
   const subtitle =
     section?.subtitle ||
-    "We believe diving should be an unhurried, private, and deeply transformative encounter with the deep.";
-  const badge = section?.badge || "The Sanctuary Standard";
+    "We believe diving should be an unhurried, authentic, and deeply transformative encounter with the Red Sea depths.";
+  const badge = section?.badge || "The Diving Vision Standard";
 
   const pillars = [
     {

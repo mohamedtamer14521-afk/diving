@@ -228,12 +228,12 @@ export default function AdminAppearancePage() {
                   <div className="flex items-center gap-2">
                     <input
                       type="color"
-                      value={currentTheme.colors.background.startsWith("#") ? currentTheme.colors.background : "#040914"}
+                      value={(currentTheme.colors.background || currentTheme.colors.ocean_deep || "#040914").startsWith("#") ? (currentTheme.colors.background || currentTheme.colors.ocean_deep || "#040914") : "#040914"}
                       onChange={(e) => handleUpdateCustomColor("background", e.target.value)}
                       className="w-10 h-10 rounded-lg cursor-pointer bg-transparent border-0"
                     />
                     <span className="text-xs font-mono text-slate-300">
-                      {currentTheme.colors.background}
+                      {currentTheme.colors.background || currentTheme.colors.ocean_deep || "#040914"}
                     </span>
                   </div>
                 </div>

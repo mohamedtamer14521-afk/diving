@@ -82,8 +82,8 @@ export default function AdminGalleryPage() {
               key={item.id}
               className="p-4 rounded-3xl bg-slate-900/60 border border-white/10 space-y-3 relative group"
             >
-              <div className="relative h-48 w-full rounded-2xl overflow-hidden border border-white/10">
-                <Image src={item.image_url} alt={item.title} fill className="object-cover" />
+              <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-900 border border-white/10">
+                <Image src={item.image_url || "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1200&auto=format&fit=crop"} alt={item.title} fill className="object-cover" />
               </div>
 
               <div>

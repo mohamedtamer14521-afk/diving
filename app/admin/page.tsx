@@ -57,7 +57,7 @@ export default function AdminOverviewPage() {
               Executive Overview
             </h1>
             <p className="text-xs sm:text-sm text-slate-400 mt-1">
-              Sanctuary operations, reservation pipeline, and real-time CMS telemetry.
+              Diving center operations, reservation pipeline, and real-time CMS telemetry.
             </p>
           </div>
 
@@ -65,7 +65,7 @@ export default function AdminOverviewPage() {
             <Link href="/__dev/device-preview" target="_blank">
               <Button size="sm" variant="glass" className="text-xs">
                 <Smartphone className="w-3.5 h-3.5 mr-1 text-cyan-400" />
-                Live iPhone Simulator
+                Mobile Device Preview
               </Button>
             </Link>
             <Link href="/" target="_blank">

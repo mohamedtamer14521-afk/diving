@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { ChevronDown, Sparkles, ArrowUpRight } from "lucide-react";
+import { ChevronDown, Sparkles, ArrowRight, ShieldCheck, Compass, Anchor } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DataStore } from "@/lib/data-store";
 import { HomepageSection, BusinessSettings } from "@/lib/types";
@@ -26,11 +26,7 @@ export function CinematicHero({ section, businessSettings, onOpenBooking }: Cine
 
     const handleSync = (e: Event) => {
       const customEvent = e as CustomEvent;
-      if (
-        customEvent.detail &&
-        (customEvent.detail.key === "diving_vision_settings" ||
-          customEvent.detail.key === "aura_oceanics_settings")
-      ) {
+      if (customEvent.detail && customEvent.detail.key === "diving_vision_settings") {
         setSettings(customEvent.detail.value);
       }
     };
@@ -38,70 +34,56 @@ export function CinematicHero({ section, businessSettings, onOpenBooking }: Cine
     return () => window.removeEventListener("store-sync", handleSync);
   }, [businessSettings]);
 
-  const title = section?.title || "Descend into Pure Silence.";
+  const title = section?.title || "Discover the Red Sea's Ultimate Depths.";
   const subtitle =
     section?.subtitle ||
-    "Bespoke underwater expeditions, private guide services, and master certifications in crystal-clear waters.";
-  const badge = section?.badge || "Exclusive Marine Expeditions";
+    "PADI 5-Star Dive Resort in Sharm El-Sheikh. World-class coral reefs, legendary WW2 wrecks, and daily private boat safaris.";
+  const badge = section?.badge || "PADI 5-Star Dive Center #34281 • Sharm El-Sheikh";
 
-  const waterTemp = (section?.settings as any)?.water_temp || "27.5°C / 81°F";
+  const waterTemp = (section?.settings as any)?.water_temp || "28°C / 82°F";
   const visibility = (section?.settings as any)?.visibility || "35m+ Crystal";
-  const guideRatio = (section?.settings as any)?.guide_ratio || "1 : 2 Private";
-  const gearTier = (section?.settings as any)?.gear_tier || "Scubapro Pro";
+  const guideRatio = (section?.settings as any)?.guide_ratio || "Max 1:4 Ratio";
+  const gearTier = (section?.settings as any)?.gear_tier || "Scubapro & Aqualung";
 
   return (
-    <section className="relative min-h-[92vh] sm:min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden">
+    <section className="relative min-h-[95vh] sm:min-h-screen flex items-center justify-center pt-28 pb-20 overflow-hidden">
       {/* Cinematic Background Layer */}
       <div className="absolute inset-0 z-0">
         <Image
           src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2000&auto=format&fit=crop"
-          alt="Deep ocean coral wall"
+          alt="Red Sea coral reef diving in Sharm El Sheikh"
           fill
           priority
-          className="object-cover object-center scale-105 filter brightness-[0.42] contrast-[1.1] transition-transform duration-1000 ease-out"
+          className="object-cover object-center scale-105 animate-subtle-zoom brightness-[0.45]"
         />
-
-        {/* Ambient Gradient Masks */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-slate-950/70" />
-        <div className="absolute inset-0 bg-radial-gradient from-cyan-500/10 via-transparent to-slate-950/90 pointer-events-none" />
+        {/* Multilayer gradient depth */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-[#030712]/50 to-[#030712]/80" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-950/40 via-transparent to-transparent" />
       </div>
 
-      {/* Hero Content Container */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
-        {/* Apple-style Top Pill */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.08] backdrop-blur-xl border border-white/15 mb-6 animate-in fade-in slide-in-from-top-4 duration-700">
-          <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-          <span className="text-xs font-semibold tracking-wide text-cyan-200 uppercase">
-            {badge}
-          </span>
-          <span className="w-1 h-1 rounded-full bg-cyan-400" />
-          <span className="text-xs text-slate-300 font-medium">Red Sea Sanctuary</span>
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+        {/* Top Verified Badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-semibold tracking-wide uppercase shadow-lg shadow-cyan-950/50 backdrop-blur-md mb-6 animate-in fade-in slide-in-from-bottom-3 duration-700">
+          <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
+          <span>{badge}</span>
         </div>
 
-        {/* Cinematic Main Heading */}
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.08] max-w-4xl font-display mb-6 animate-in fade-in slide-in-from-bottom-6 duration-700">
-          {title.split(" ").map((word, i) =>
-            i === title.split(" ").length - 1 ? (
-              <span key={i} className="text-gradient-cyan block sm:inline">
-                {" " + word}
-              </span>
-            ) : (
-              word + " "
-            )
-          )}
+        {/* Dynamic Main Title */}
+        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-white font-display tracking-tight leading-[1.1] max-w-4xl text-balance drop-shadow-2xl">
+          {title}
         </h1>
 
-        {/* Subtle Luxury Subtitle */}
-        <p className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl font-light leading-relaxed mb-10 text-subtle animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100">
+        {/* Dynamic Subtitle */}
+        <p className="mt-6 text-base sm:text-xl text-slate-300 max-w-2xl text-balance leading-relaxed font-normal drop-shadow-md">
           {subtitle}
         </p>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto animate-in fade-in slide-in-from-bottom-10 duration-700 delay-200">
+        {/* Primary Call to Action Buttons */}
+        <div className="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
           <Button
             size="lg"
             variant="primary"
-            className="w-full sm:w-auto text-base shadow-xl shadow-sky-500/30"
+            className="w-full sm:w-auto px-8 py-4 text-base font-bold shadow-2xl shadow-cyan-500/25 group"
             onClick={
               onOpenBooking ||
               (() => {
@@ -109,57 +91,63 @@ export function CinematicHero({ section, businessSettings, onOpenBooking }: Cine
               })
             }
           >
-            Reserve Private Expedition
-            <ArrowUpRight className="w-4 h-4 ml-1" />
+            <span>Book Expedition / Course</span>
+            <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
           </Button>
 
-          <a href="#activities" className="w-full sm:w-auto">
-            <Button size="lg" variant="glass" className="w-full sm:w-auto text-base">
-              Explore Experiences
-            </Button>
+          <a
+            href="#trips"
+            className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-white/[0.06] hover:bg-white/10 border border-white/15 text-white text-sm font-semibold backdrop-blur-xl transition-all duration-300 flex items-center justify-center gap-2"
+          >
+            <Anchor className="w-4 h-4 text-cyan-400" />
+            <span>Daily Boat Safaris</span>
           </a>
         </div>
 
-        {/* Live Ocean Sanctuary Conditions Pill Dock */}
-        <div className="mt-14 sm:mt-16 grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-3xl animate-in fade-in duration-1000 delay-300">
-          <div className="p-3.5 rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/10 text-left">
-            <span className="block text-[10px] tracking-wider uppercase text-slate-400 font-semibold">
+        {/* Live Marine Telemetry Bar */}
+        <div className="mt-14 w-full max-w-4xl grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+          <div className="p-4 rounded-2xl bg-slate-900/60 border border-white/10 backdrop-blur-xl text-center">
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
               Water Temp
             </span>
-            <span className="text-sm font-bold text-white mt-0.5 block font-mono">{waterTemp}</span>
+            <span className="text-sm sm:text-base font-bold text-cyan-300 font-mono mt-0.5 block">
+              {waterTemp}
+            </span>
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/10 text-left">
-            <span className="block text-[10px] tracking-wider uppercase text-slate-400 font-semibold">
+          <div className="p-4 rounded-2xl bg-slate-900/60 border border-white/10 backdrop-blur-xl text-center">
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
               Visibility
             </span>
-            <span className="text-sm font-bold text-cyan-300 mt-0.5 block font-mono">{visibility}</span>
+            <span className="text-sm sm:text-base font-bold text-cyan-300 font-mono mt-0.5 block">
+              {visibility}
+            </span>
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/10 text-left">
-            <span className="block text-[10px] tracking-wider uppercase text-slate-400 font-semibold">
+          <div className="p-4 rounded-2xl bg-slate-900/60 border border-white/10 backdrop-blur-xl text-center">
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
               Guide Ratio
             </span>
-            <span className="text-sm font-bold text-white mt-0.5 block font-mono">{guideRatio}</span>
+            <span className="text-sm sm:text-base font-bold text-cyan-300 font-mono mt-0.5 block">
+              {guideRatio}
+            </span>
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/10 text-left">
-            <span className="block text-[10px] tracking-wider uppercase text-slate-400 font-semibold">
-              Gear Tier
+          <div className="p-4 rounded-2xl bg-slate-900/60 border border-white/10 backdrop-blur-xl text-center">
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+              Dive Gear
             </span>
-            <span className="text-sm font-bold text-emerald-400 mt-0.5 block font-mono">{gearTier}</span>
+            <span className="text-sm sm:text-base font-bold text-cyan-300 font-mono mt-0.5 block">
+              {gearTier}
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Down Chevron Indicator */}
-      <a
-        href="#narrative"
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 p-2 rounded-full text-slate-400 hover:text-white transition-colors animate-bounce"
-        aria-label="Scroll to narrative"
-      >
+      {/* Down Arrow */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-slate-500 animate-bounce hidden sm:block">
         <ChevronDown className="w-5 h-5" />
-      </a>
+      </div>
     </section>
   );
 }

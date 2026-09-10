@@ -97,7 +97,7 @@ export default function AdminMediaPage() {
               className="p-4 rounded-3xl bg-slate-900/60 border border-white/10 space-y-3"
             >
               <div className="relative h-44 w-full rounded-2xl overflow-hidden border border-white/10">
-                <Image src={item.url} alt={item.alt_text || item.name} fill className="object-cover" />
+                <Image src={item.url || "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1200&auto=format&fit=crop"} alt={item.alt_text || item.name} fill className="object-cover" />
               </div>
 
               <div>

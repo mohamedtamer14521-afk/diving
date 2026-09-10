@@ -26,16 +26,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (typeof document === "undefined" || !t || !t.colors) return;
     const root = document.documentElement;
 
-    root.style.setProperty("--bg-primary", t.colors.background);
-    root.style.setProperty("--bg-surface", t.colors.surface);
-    root.style.setProperty("--bg-elevated", t.colors.surface_elevated);
-    root.style.setProperty("--text-primary", t.colors.text_primary);
-    root.style.setProperty("--text-muted", t.colors.text_muted);
-    root.style.setProperty("--primary", t.colors.primary);
-    root.style.setProperty("--primary-glow", t.colors.primary_glow);
-    root.style.setProperty("--secondary", t.colors.secondary);
-    root.style.setProperty("--accent", t.colors.accent);
-    root.style.setProperty("--border-subtle", t.colors.border_subtle);
+    root.style.setProperty("--bg-primary", t.colors.background || t.colors.ocean_deep || "#040914");
+    root.style.setProperty("--bg-surface", t.colors.surface || "#081426");
+    root.style.setProperty("--bg-elevated", t.colors.surface_elevated || "#0f2038");
+    root.style.setProperty("--text-primary", t.colors.text_primary || "#f8fafc");
+    root.style.setProperty("--text-muted", t.colors.text_muted || "#94a3b8");
+    root.style.setProperty("--primary", t.colors.primary || "#0ea5e9");
+    root.style.setProperty("--primary-glow", t.colors.primary_glow || "rgba(14, 165, 233, 0.4)");
+    root.style.setProperty("--secondary", t.colors.secondary || "#06b6d4");
+    root.style.setProperty("--accent", t.colors.accent || "#38bdf8");
+    root.style.setProperty("--border-subtle", t.colors.border_subtle || "rgba(255, 255, 255, 0.08)");
 
     if (t.styling?.dark_mode) {
       root.classList.remove("theme-light");
@@ -45,7 +45,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       root.classList.remove("dark");
     }
 
-    const radiusMap = {
+    const radiusMap: Record<string, string> = {
       none: "0px",
       sm: "0.375rem",
       md: "0.75rem",

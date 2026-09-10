@@ -22,56 +22,61 @@ import {
 } from "./types";
 import { THEME_PRESETS } from "./theme-presets";
 import { supabase, isSupabaseConfigured } from "./supabase";
+import { getServerContent } from "./server-store";
 
 /**
  * Authoritative Server-Side Data Fetchers for Next.js SSR / ISR.
- * These functions execute only on the server, querying Supabase when configured,
- * and falling back deterministically to DEFAULT business data.
+ * Dynamically queries persistent server store and Supabase.
  */
 
 export async function getPublishedBusinessSettings(): Promise<BusinessSettings> {
+  const serverContent = getServerContent();
+
   if (isSupabaseConfigured() && supabase) {
     try {
       const { data, error } = await supabase
-        .from("business_settings")
+        .from("site_settings")
         .select("*")
-        .eq("id", "singleton")
+        .limit(1)
         .single();
 
       if (!error && data) {
         return {
-          business_name: data.business_name || AUTHORITATIVE_BUSINESS_NAME,
-          tagline: data.tagline || DEFAULT_BUSINESS_SETTINGS.tagline,
-          description: data.description || DEFAULT_BUSINESS_SETTINGS.description,
-          logo_url: data.logo_url || "",
-          favicon_url: data.favicon_url || "",
-          phone: data.phone || DEFAULT_BUSINESS_SETTINGS.phone,
-          whatsapp_number: data.whatsapp_number || DEFAULT_BUSINESS_SETTINGS.whatsapp_number,
+          ...serverContent.settings,
+          business_name: data.business_name || serverContent.settings.business_name || AUTHORITATIVE_BUSINESS_NAME,
+          tagline: data.tagline || serverContent.settings.tagline,
+          description: data.description || serverContent.settings.description,
+          logo_url: data.logo_url || serverContent.settings.logo_url,
+          favicon_url: data.favicon_url || serverContent.settings.favicon_url,
+          phone: data.phone || serverContent.settings.phone,
+          whatsapp_number: data.whatsapp_number || serverContent.settings.whatsapp_number,
           whatsapp_default_message:
-            data.whatsapp_default_message || DEFAULT_BUSINESS_SETTINGS.whatsapp_default_message,
-          whatsapp_config: data.whatsapp_config || DEFAULT_BUSINESS_SETTINGS.whatsapp_config,
-          email: data.email || DEFAULT_BUSINESS_SETTINGS.email,
-          address: data.address || DEFAULT_BUSINESS_SETTINGS.address,
-          city: data.city || DEFAULT_BUSINESS_SETTINGS.city,
-          country: data.country || DEFAULT_BUSINESS_SETTINGS.country,
-          google_maps_url: data.google_maps_url || DEFAULT_BUSINESS_SETTINGS.google_maps_url,
-          currency: data.currency || DEFAULT_BUSINESS_SETTINGS.currency,
-          opening_hours: data.opening_hours || DEFAULT_BUSINESS_SETTINGS.opening_hours,
-          social_links: data.social_links || DEFAULT_BUSINESS_SETTINGS.social_links,
-          last_published_at: data.last_published_at || DEFAULT_BUSINESS_SETTINGS.last_published_at,
-          last_modified_at: data.last_modified_at || DEFAULT_BUSINESS_SETTINGS.last_modified_at,
+            data.whatsapp_default_message || serverContent.settings.whatsapp_default_message,
+          whatsapp_config: data.whatsapp_config || serverContent.settings.whatsapp_config,
+          email: data.email || serverContent.settings.email,
+          address: data.address || serverContent.settings.address,
+          city: data.city || serverContent.settings.city,
+          country: data.country || serverContent.settings.country,
+          google_maps_url: data.google_maps_url || serverContent.settings.google_maps_url,
+          currency: data.currency || serverContent.settings.currency,
+          opening_hours: data.opening_hours || serverContent.settings.opening_hours,
+          social_links: data.social_links || serverContent.settings.social_links,
+          last_published_at: data.last_published_at || serverContent.settings.last_published_at,
+          last_modified_at: data.last_modified_at || serverContent.settings.last_modified_at,
           has_unpublished_changes: false,
         };
       }
     } catch (e) {
-      console.warn("Could not load business settings from Supabase, using defaults:", e);
+      console.warn("Could not load business settings from Supabase, using server content:", e);
     }
   }
 
-  return DEFAULT_BUSINESS_SETTINGS;
+  return serverContent.settings || DEFAULT_BUSINESS_SETTINGS;
 }
 
 export async function getPublishedSections(): Promise<HomepageSection[]> {
+  const serverContent = getServerContent();
+
   if (isSupabaseConfigured() && supabase) {
     try {
       const { data, error } = await supabase
@@ -83,14 +88,16 @@ export async function getPublishedSections(): Promise<HomepageSection[]> {
         return data as HomepageSection[];
       }
     } catch (e) {
-      console.warn("Could not load homepage sections from Supabase, using defaults:", e);
+      console.warn("Could not load sections from Supabase:", e);
     }
   }
 
-  return DEFAULT_HOMEPAGE_SECTIONS;
+  return serverContent.sections || DEFAULT_HOMEPAGE_SECTIONS;
 }
 
 export async function getPublishedActivities(): Promise<Activity[]> {
+  const serverContent = getServerContent();
+
   if (isSupabaseConfigured() && supabase) {
     try {
       const { data, error } = await supabase
@@ -103,14 +110,16 @@ export async function getPublishedActivities(): Promise<Activity[]> {
         return data as Activity[];
       }
     } catch (e) {
-      console.warn("Could not load activities from Supabase, using defaults:", e);
+      console.warn("Could not load activities from Supabase:", e);
     }
   }
 
-  return DEFAULT_ACTIVITIES.filter((a) => a.status === "published");
+  return (serverContent.activities || DEFAULT_ACTIVITIES).filter((a) => a.status === "published");
 }
 
 export async function getPublishedCourses(): Promise<Course[]> {
+  const serverContent = getServerContent();
+
   if (isSupabaseConfigured() && supabase) {
     try {
       const { data, error } = await supabase
@@ -123,14 +132,16 @@ export async function getPublishedCourses(): Promise<Course[]> {
         return data as Course[];
       }
     } catch (e) {
-      console.warn("Could not load courses from Supabase, using defaults:", e);
+      console.warn("Could not load courses from Supabase:", e);
     }
   }
 
-  return DEFAULT_COURSES.filter((c) => c.status === "published");
+  return (serverContent.courses || DEFAULT_COURSES).filter((c) => c.status === "published");
 }
 
 export async function getPublishedTrips(): Promise<Trip[]> {
+  const serverContent = getServerContent();
+
   if (isSupabaseConfigured() && supabase) {
     try {
       const { data, error } = await supabase
@@ -143,14 +154,16 @@ export async function getPublishedTrips(): Promise<Trip[]> {
         return data as Trip[];
       }
     } catch (e) {
-      console.warn("Could not load trips from Supabase, using defaults:", e);
+      console.warn("Could not load trips from Supabase:", e);
     }
   }
 
-  return DEFAULT_TRIPS.filter((t) => t.status === "published");
+  return (serverContent.trips || DEFAULT_TRIPS).filter((t) => t.status === "published");
 }
 
 export async function getPublishedGallery(): Promise<GalleryItem[]> {
+  const serverContent = getServerContent();
+
   if (isSupabaseConfigured() && supabase) {
     try {
       const { data, error } = await supabase
@@ -163,14 +176,16 @@ export async function getPublishedGallery(): Promise<GalleryItem[]> {
         return data as GalleryItem[];
       }
     } catch (e) {
-      console.warn("Could not load gallery from Supabase, using defaults:", e);
+      console.warn("Could not load gallery from Supabase:", e);
     }
   }
 
-  return DEFAULT_GALLERY.filter((g) => g.status === "published");
+  return (serverContent.gallery || DEFAULT_GALLERY).filter((g) => g.status === "published");
 }
 
 export async function getPublishedReviews(): Promise<Review[]> {
+  const serverContent = getServerContent();
+
   if (isSupabaseConfigured() && supabase) {
     try {
       const { data, error } = await supabase
@@ -183,14 +198,16 @@ export async function getPublishedReviews(): Promise<Review[]> {
         return data as Review[];
       }
     } catch (e) {
-      console.warn("Could not load reviews from Supabase, using defaults:", e);
+      console.warn("Could not load reviews from Supabase:", e);
     }
   }
 
-  return DEFAULT_REVIEWS.filter((r) => r.status === "published");
+  return (serverContent.reviews || DEFAULT_REVIEWS).filter((r) => r.status === "published");
 }
 
 export async function getPublishedFaqs(): Promise<FAQ[]> {
+  const serverContent = getServerContent();
+
   if (isSupabaseConfigured() && supabase) {
     try {
       const { data, error } = await supabase
@@ -203,30 +220,14 @@ export async function getPublishedFaqs(): Promise<FAQ[]> {
         return data as FAQ[];
       }
     } catch (e) {
-      console.warn("Could not load faqs from Supabase, using defaults:", e);
+      console.warn("Could not load faqs from Supabase:", e);
     }
   }
 
-  return DEFAULT_FAQS.filter((f) => f.status === "published");
+  return (serverContent.faqs || DEFAULT_FAQS).filter((f) => f.status === "published");
 }
 
 export async function getPublishedTheme(): Promise<ThemeConfig> {
-  if (isSupabaseConfigured() && supabase) {
-    try {
-      const { data, error } = await supabase
-        .from("theme_config")
-        .select("*")
-        .eq("id", "singleton")
-        .single();
-
-      if (!error && data) {
-        return data as ThemeConfig;
-      }
-    } catch (e) {
-      console.warn("Could not load theme config from Supabase, using defaults:", e);
-    }
-  }
-
   return THEME_PRESETS["premium-ocean"] || Object.values(THEME_PRESETS)[0];
 }
 

@@ -50,7 +50,7 @@ export function FAQSection({
   const title = section?.title || "Frequently Asked Questions";
   const subtitle =
     section?.subtitle ||
-    "Clear answers regarding sanctuary logistics, gear requirements, and booking policies.";
+    "Clear answers regarding dive logistics, gear requirements, and booking policies in Sharm El-Sheikh.";
   const badge = section?.badge || "Guest Inquiries";
 
   return (
